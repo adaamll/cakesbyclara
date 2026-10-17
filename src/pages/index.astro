@@ -11,6 +11,8 @@ const favorites = cakes.filter((c) => c.favorite);
 const cakeOptions = [...favorites.map((c) => c.name), seasonal.cake, 'Egen idé'];
 const diets = ['Glutenfri', 'Laktosfri', 'Vegansk', 'Nötfri'];
 const styles = ['Låt Clara föreslå', 'Vintage', 'Klassisk', 'Blommor', 'Tema'];
+const bottoms = ['Låt Clara föreslå', 'Vanilj', 'Choklad', 'Citron', 'Mandel', 'Red velvet', 'Kladdkaka'];
+const fillings = ['Låt Clara föreslå', 'Vaniljkräm', 'Hallon', 'Jordgubb', 'Citronkurd', 'Chokladmousse', 'Kola på brynt smör', 'Passionsfrukt'];
 const steps = [
   { title: 'Skicka en förfrågan', text: 'Välj en favorit eller beskriv din idé. Ange datum, antal personer och eventuella allergier.' },
   { title: 'Jag bekräftar', text: 'Inom ett dygn får du förslag, pris och hämttid.' },
@@ -151,6 +153,18 @@ const [weekdays, saturday] = site.hours;
               {cakeOptions.map((o) => <option value={o}>{o}</option>)}
             </select>
           </label>
+          <div class="grid form-grid">
+            <label class="field">Tårtbotten
+              <select name="Tårtbotten">
+                {bottoms.map((o) => <option value={o}>{o}</option>)}
+              </select>
+            </label>
+            <label class="field">Fyllning
+              <select name="Fyllning">
+                {fillings.map((o) => <option value={o}>{o}</option>)}
+              </select>
+            </label>
+          </div>
           <fieldset>
             <legend>Stil</legend>
             <div class="pills">
