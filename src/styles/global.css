@@ -151,11 +151,16 @@ legend { font-size: 14px; font-weight: 500; margin-bottom: 8px; padding: 0; }
 .thanks p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--ink-3); }
 
 /* Tabeller (storlekar, priser) */
-.table { display: flex; flex-direction: column; border-top: 1px solid var(--ink); flex: 2 1 480px; }
+/* Alla rader delar samma kolumner (subgrid), så att kolumnerna linjerar */
+.table {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; column-gap: 16px;
+  align-content: start; border-top: 1px solid var(--ink); flex: 2 1 480px;
+}
 .table-row {
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 16px;
+  grid-column: 1 / -1; display: grid; grid-template-columns: subgrid;
   padding: 18px 0; border-bottom: 1px solid #e3c4ca; font-size: 16px; align-items: baseline;
 }
+.table-row > :last-child { text-align: right; }
 .table-row > :first-child { font-weight: 500; }
 
 /* Footer */
