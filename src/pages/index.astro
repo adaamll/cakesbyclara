@@ -10,9 +10,9 @@ import reviews from '../data/reviews.json';
 import { img, url } from '../lib/url';
 
 const favorites = cakes.filter((c) => c.favorite);
-// Rekommenderade kombinationer: favoriterna och säsongens tårta
+// Rekommenderade kombinationer: favoriterna, plus säsongens tårta när den sektionen visas
 const combos = cakes
-  .filter((c) => c.favorite || c.name === seasonal.cake)
+  .filter((c) => c.favorite || (site.show.seasonal && c.name === seasonal.cake))
   .map((c) => ({ name: c.name, bottom: c.bottom, fillings: c.fillings }));
 // Alla tårtors botten och fyllningar, så att "Beställ den här" i sortimentet kan förvälja dem
 const allCombos = cakes.map((c) => ({ name: c.name, bottom: c.bottom, fillings: c.fillings }));

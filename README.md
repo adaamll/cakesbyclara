@@ -26,7 +26,7 @@ Texter, priser och listor ligger i `src/data/`:
 - `site.json` – adress, telefon, e-post, öppettider, leveranspriser, toppbanner och av/på för sektioner (`show`)
 - `cakes.json` – alla tårtor (`favorite: true` visar tårtan under "Kundernas favoriter" och som rekommenderad kombination i formuläret; `bottom` och `fillings` förväljs när kunden beställer tårtan)
 - `order.json` – valbara tårtbottnar och fyllningar i beställningsformuläret (och max antal fyllningar)
-- `seasonal.json` – säsongens tårta
+- `seasonal.json` – säsongens tårta (visas när `show.seasonal` är `true` i `site.json`)
 - `faq.json`, `reviews.json`, `sizes.json`, `wedding.json`
 
 Färger och typsnitt finns som variabler i `src/styles/global.css`.
