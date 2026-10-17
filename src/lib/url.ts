@@ -6,5 +6,8 @@ export function url(path = ''): string {
   return `${base}/${path.replace(/^\//, '')}`;
 }
 
+/** Egna bilder anges som "images/fil.webp" (ligger i public/), annars ett Unsplash-id. */
 export const img = (id: string, w = 1200) =>
-  `https://images.unsplash.com/photo-${id}?w=${w}&q=80&auto=format&fit=crop`;
+  id.startsWith('images/')
+    ? url(id)
+    : `https://images.unsplash.com/photo-${id}?w=${w}&q=80&auto=format&fit=crop`;
