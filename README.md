@@ -45,7 +45,7 @@ Vid push till `main` byggs och publiceras sajten med GitHub Pages
 
 - [ ] Byt alla Unsplash-bilder mot Claras egna foton (lägg dem i `public/images/`)
 - [x] Bild på Clara (Om Clara)
-- [ ] Bild till bröllopshero, som nu är en platshållare
+- [x] Bild till bröllopshero
 - [ ] Riktiga uppgifter: adress, telefon, öppettider, priser, leveranszoner, omdömen
 - [ ] Koppla formulären till e-post (se ovan)
 - [ ] Integritetspolicy (GDPR) och köpvillkor

@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import SimpleFooter from '../components/SimpleFooter.astro';
 import site from '../data/site.json';
 import wedding from '../data/wedding.json';
-import { img } from '../lib/url';
+import { img, url } from '../lib/url';
 
 const gallery = [
   { id: '1535254973040-607b474cb50d', alt: 'Bröllopstårta i tre våningar' },
@@ -19,8 +19,7 @@ const gallery = [
 >
   <section class="container grid hero">
     <div class="img-frame hero-img">
-      {/* Byt mot en egen bröllopsbild: lägg filen i public/images/ och använd <img src=...> */}
-      <div class="img-placeholder">Här kommer en bild på en bröllopstårta</div>
+      <img src={url('images/brollop-hero.webp')} alt="Vit bröllopstårta i fyra våningar med rosa och vita rosor" width="775" height="969" fetchpriority="high" />
     </div>
     <div class="stack hero-text">
       <p class="eyebrow">Bröllopstårtor</p>
