@@ -105,7 +105,7 @@ const gallery = [
 </Base>
 
 <script>
-  import { setupForm } from '../lib/forms';
+  import { setupForm, reveal } from '../lib/forms';
 
   const date = document.querySelector<HTMLInputElement>('#wedding-date');
   if (date) date.min = new Date().toISOString().slice(0, 10);
@@ -116,6 +116,7 @@ const gallery = [
     setupForm(form, () => {
       form.hidden = true;
       thanks.hidden = false;
+      reveal(thanks);
     });
   }
 </script>

@@ -291,7 +291,7 @@ const [weekdays, saturday] = site.hours;
 </Base>
 
 <script>
-  import { setupForm } from '../lib/forms';
+  import { setupForm, reveal } from '../lib/forms';
 
   // "Öppet idag" utifrån veckodag och öppettiderna i site.json
   const today = document.getElementById('oppet-idag');
@@ -380,6 +380,7 @@ const [weekdays, saturday] = site.hours;
       nameEl.textContent = String(data.get('Namn') || '').trim().split(' ')[0];
       form.hidden = true;
       thanks.hidden = false;
+      reveal(thanks);
     });
     document.getElementById('order-again')?.addEventListener('click', () => {
       form.reset();
@@ -387,6 +388,7 @@ const [weekdays, saturday] = site.hours;
       updateFillings();
       form.hidden = false;
       thanks.hidden = true;
+      reveal(form);
     });
   }
 

@@ -42,3 +42,17 @@ export function setupForm(form: HTMLFormElement, onSent: (data: FormData) => voi
     }
   });
 }
+
+/**
+ * Visar ett meddelande i formulärkortet (t.ex. tack-rutan) och scrollar dit.
+ * Formulären är långa, så utan scroll hamnar meddelandet ovanför skärmen.
+ */
+export function reveal(el: HTMLElement) {
+  const card = el.closest<HTMLElement>('.form-card') ?? el;
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const heading = el.querySelector<HTMLElement>('h3, button, input');
+  if (heading) {
+    if (heading.tagName === 'H3') heading.tabIndex = -1;
+    heading.focus({ preventScroll: true });
+  }
+}
