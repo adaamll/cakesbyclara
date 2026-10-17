@@ -1,0 +1,12 @@
+---
+import { url } from '../lib/url';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<a href={url('/')} class:list={['logo', className]} aria-label="Cakes by Clara">
+  <span class="logo-top">Cakes by</span>
+  <span class="logo-script">Clara</span>
+</a>

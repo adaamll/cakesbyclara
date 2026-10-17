@@ -1,11 +1,11 @@
 ---
 import site from '../data/site.json';
+import Logo from './Logo.astro';
 const hours = site.hours.map((h) => `${h.label.toLowerCase()} ${h.text}`).join(', ');
 ---
 <footer class="container footer-simple">
-  <span class="footer-logo">Cakes by <em>Clara</em></span>
+  <Logo class="footer-logo" />
   <span>
-    {site.street}, {site.city} · {hours.charAt(0).toUpperCase() + hours.slice(1)} ·
-    <a href={site.phoneHref}>{site.phone}</a>
+    {site.street}, {site.city} · {hours.charAt(0).toUpperCase() + hours.slice(1)} · <a href={site.phoneHref}>{site.phone}</a>
   </span>
 </footer>

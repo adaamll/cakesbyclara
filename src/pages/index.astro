@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
 import site from '../data/site.json';
 import cakes from '../data/cakes.json';
 import seasonal from '../data/seasonal.json';
@@ -270,7 +271,7 @@ const [weekdays, saturday] = site.hours;
 
   <footer slot="footer" class="container stack big-footer">
     <div class="grid footer-cols" style="--min:220px">
-      <div class="footer-brand">Cakes by <em>Clara</em></div>
+      <div><Logo class="footer-logo" /></div>
       <div class="stack"><strong>Besök</strong><span>{site.street}</span><span>{site.postalCode} {site.city}</span></div>
       <div class="stack">
         <strong>Öppettider</strong>
@@ -522,6 +523,5 @@ const [weekdays, saturday] = site.hours;
   .big-footer { padding-top: 72px; padding-bottom: 48px; gap: 48px; }
   .footer-cols { gap: 32px; font-size: 15px; line-height: 1.7; }
   .footer-cols strong { font-weight: 600; }
-  .footer-brand { font-family: var(--serif); font-size: 30px; line-height: 1; }
   .copyright { margin: 0; font-size: 13px; color: var(--ink-muted); }
 </style>

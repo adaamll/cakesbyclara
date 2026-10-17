@@ -1,5 +1,6 @@
 ---
 import { url } from '../lib/url';
+import Logo from './Logo.astro';
 
 interface Props {
   page: 'home' | 'sortiment' | 'brollop';
@@ -22,10 +23,7 @@ const cta =
 ---
 <div class="header-bar" id="header-bar">
 <header class="container site-header">
-  <a href={url('/')} class="logo" aria-label="Cakes by Clara">
-    <span class="logo-top">Cakes by</span>
-    <span class="logo-script">Clara</span>
-  </a>
+  <Logo />
   <nav class="nav" aria-label="Huvudmeny">
     {links.map((l) => <a href={l.href} aria-current={l.current ? 'page' : undefined}>{l.label}</a>)}
     <a href={cta.href} class="nav-cta">{cta.label}</a>
