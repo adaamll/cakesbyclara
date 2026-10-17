@@ -10,6 +10,7 @@ import { img, url } from '../lib/url';
 const favorites = cakes.filter((c) => c.favorite);
 const cakeOptions = [...favorites.map((c) => c.name), seasonal.cake, 'Egen idé'];
 const diets = ['Glutenfri', 'Laktosfri', 'Vegansk', 'Nötfri'];
+const styles = ['Låt Clara föreslå', 'Vintage', 'Klassisk', 'Blommor', 'Tema'];
 const steps = [
   { title: 'Skicka en förfrågan', text: 'Välj en favorit eller beskriv din idé. Ange datum, antal personer och eventuella allergier.' },
   { title: 'Jag bekräftar', text: 'Inom ett dygn får du förslag, pris och hämttid.' },
@@ -150,6 +151,12 @@ const [weekdays, saturday] = site.hours;
               {cakeOptions.map((o) => <option value={o}>{o}</option>)}
             </select>
           </label>
+          <fieldset>
+            <legend>Stil</legend>
+            <div class="pills">
+              {styles.map((st, i) => <label class="pill"><input type="radio" name="Stil" value={st} checked={i === 0} />{st}</label>)}
+            </div>
+          </fieldset>
           <fieldset>
             <legend>Specialkost</legend>
             <div class="pills">
