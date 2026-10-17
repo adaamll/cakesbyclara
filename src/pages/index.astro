@@ -263,9 +263,15 @@ const [weekdays, saturday] = site.hours;
   const date = document.querySelector<HTMLInputElement>('#order-date');
   if (date) date.min = new Date().toISOString().slice(0, 10);
 
-  // Förvald tårta från sortimentet: /?tarta=Namn#formular
+  // Förvald tårta och specialkost från sortimentet: /?tarta=Namn&kost=glutenfri,vegansk#formular
+  const params = new URLSearchParams(location.search);
+  const kost = (params.get('kost') || '').toLowerCase().split(',').filter(Boolean);
+  document.querySelectorAll<HTMLInputElement>('#order-form input[name="kost"]').forEach((box) => {
+    if (kost.includes(box.value.toLowerCase())) box.checked = true;
+  });
+
   const select = document.querySelector<HTMLSelectElement>('#cake-select');
-  const wanted = new URLSearchParams(location.search).get('tarta');
+  const wanted = params.get('tarta');
   if (select && wanted) {
     if (![...select.options].some((o) => o.value === wanted)) {
       select.prepend(new Option(wanted, wanted));

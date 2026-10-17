@@ -45,7 +45,7 @@ const orderHref = (name: string) => `${url('/')}?tarta=${encodeURIComponent(name
           </div>
           <p class="desc">{c.desc}</p>
           <div class="tags">{c.diets.map((d) => <span class="tag">Kan bli {d}</span>)}</div>
-          <a href={orderHref(c.name)} class="btn btn-primary btn-sm order-btn">Beställ den här</a>
+          <a href={orderHref(c.name)} class="btn btn-primary btn-sm order-btn" data-order>Beställ den här</a>
         </article>
       ))}
     </div>
@@ -84,6 +84,7 @@ const orderHref = (name: string) => `${url('/')}?tarta=${encodeURIComponent(name
   const cards = [...document.querySelectorAll<HTMLElement>('article.cake')];
   const grid = document.getElementById('cake-grid')!;
   const empty = document.getElementById('no-results')!;
+  const orderLinks = [...document.querySelectorAll<HTMLAnchorElement>('a[data-order]')];
 
   let cat = 'Alla';
   let diets: string[] = [];
@@ -100,6 +101,14 @@ const orderHref = (name: string) => `${url('/')}?tarta=${encodeURIComponent(name
     });
     grid.hidden = shown === 0;
     empty.hidden = shown !== 0;
+
+    // Vald specialkost följer med till beställningsformuläret: ?tarta=…&kost=glutenfri,vegansk
+    orderLinks.forEach((a) => {
+      const link = new URL(a.href);
+      if (diets.length) link.searchParams.set('kost', diets.join(','));
+      else link.searchParams.delete('kost');
+      a.href = link.toString();
+    });
   }
 
   catButtons.forEach((b) => b.addEventListener('click', () => { cat = b.dataset.cat!; render(); }));
