@@ -19,7 +19,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h, 0px); }
 body {
   margin: 0;
   background: var(--bg);
@@ -87,6 +87,11 @@ img { display: block; max-width: 100%; }
 
 /* Header */
 .banner { background: var(--banner); text-align: center; padding: 10px 20px; font-size: 14px; letter-spacing: 0.02em; }
+.header-bar {
+  position: sticky; top: 0; z-index: 20; background: var(--bg);
+  border-bottom: 1px solid transparent; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.header-bar.scrolled { border-bottom-color: var(--line); box-shadow: 0 6px 20px rgba(61, 37, 41, 0.05); }
 .site-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; position: relative; padding-top: 16px; padding-bottom: 16px; }
 .logo { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; line-height: 1; }
 .logo-top { font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--ink); padding-left: 0.4em; }
