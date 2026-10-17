@@ -3,13 +3,13 @@ import { url } from '../lib/url';
 import Logo from './Logo.astro';
 
 interface Props {
-  page: 'home' | 'sortiment' | 'brollop';
+  page: 'home' | 'galleri' | 'brollop';
 }
 const { page } = Astro.props;
 const home = page === 'home' ? '' : url('/');
 
 const links = [
-  { href: url('sortiment/'), label: 'Tårtor', current: page === 'sortiment' },
+  { href: url('galleri/'), label: 'Galleri', current: page === 'galleri' },
   { href: url('brollop/'), label: 'Bröllop', current: page === 'brollop' },
   ...(page === 'home' ? [{ href: '#bestall', label: 'Beställ' }] : []),
   { href: `${home}#fragor`, label: 'Frågor' },
@@ -40,7 +40,7 @@ const cta =
 
 <script>
   // Menyn ligger kvar överst vid scrollning. Dess höjd sparas i --header-h så att
-  // ankarlänkar och sortimentets filterrad hamnar under den i stället för bakom.
+  // ankarlänkar och galleriets filterrad hamnar under den i stället för bakom.
   const bar = document.getElementById('header-bar');
   if (bar) {
     const setHeight = () => document.documentElement.style.setProperty('--header-h', `${bar.offsetHeight}px`);

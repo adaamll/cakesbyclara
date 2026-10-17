@@ -1,0 +1,11 @@
+{
+  "categories": ["Vintage", "Tema"],
+  "images": [
+    { "img": "images/insta-1.webp", "title": "Spindelmannen", "alt": "Spindelmannentårta i rött och blått", "category": "Tema" },
+    { "img": "images/insta-2.webp", "title": "Ninja", "alt": "Ninjatårta i turkos", "category": "Tema" },
+    { "img": "images/insta-3.webp", "title": "Två små vintagetårtor", "alt": "Två små tårtor med spritsad dekor", "category": "Vintage" },
+    { "img": "images/insta-4.webp", "title": "Siffertårta med blommor", "alt": "Siffertårta med blommor, hallon och maränger", "category": "Tema" },
+    { "img": "images/insta-5.webp", "title": "Chokladvintage", "alt": "Chokladtårta med spritsad dekor och pärlor", "category": "Vintage" },
+    { "img": "images/insta-6.webp", "title": "K-pop", "alt": "Tårta i rosa och lila med K-pop-tema", "category": "Tema" }
+  ]
+}

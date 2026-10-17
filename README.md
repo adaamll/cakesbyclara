@@ -16,7 +16,7 @@ npm run preview  # förhandsvisar det byggda resultatet
 | Sida | Fil |
 |---|---|
 | Startsida med beställningsformulär | `src/pages/index.astro` |
-| Sortiment med filter | `src/pages/sortiment.astro` |
+| Galleri med filter (Vintage, Tema) | `src/pages/galleri.astro` |
 | Bröllop med bokning av provsmakning | `src/pages/brollop.astro` |
 
 ## Ändra innehåll
@@ -24,10 +24,12 @@ npm run preview  # förhandsvisar det byggda resultatet
 Texter, priser och listor ligger i `src/data/`:
 
 - `site.json` – adress, telefon, e-post, öppettider, leveranspriser, toppbanner och av/på för sektioner (`show`)
-- `cakes.json` – alla tårtor (`favorite: true` visar tårtan under "Kundernas favoriter" och som rekommenderad kombination i formuläret; `bottom` och `fillings` förväljs när kunden beställer tårtan)
+- `cakes.json` – tårtkombinationer; de med `favorite: true` visas under "Populära kombinationer" och som rekommenderade kombinationer i formuläret (`bottom` och `fillings` fylls i när kunden väljer dem)
+- `gallery.json` – bilderna i galleriet och deras kategori (Vintage, Tema)
 - `order.json` – valbara tårtbottnar och fyllningar i beställningsformuläret (och max antal fyllningar)
 - `seasonal.json` – säsongens tårta (visas när `show.seasonal` är `true` i `site.json`)
-- `faq.json`, `reviews.json`, `sizes.json`, `wedding.json`
+- `sizes.json` – storlekar och priser under "Så beställer du"
+- `faq.json`, `reviews.json`, `wedding.json`
 
 Färger och typsnitt finns som variabler i `src/styles/global.css`.
 

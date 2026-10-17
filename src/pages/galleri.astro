@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import SimpleFooter from '../components/SimpleFooter.astro';
+import gallery from '../data/gallery.json';
+import { img, url } from '../lib/url';
+
+const filters = ['Alla', ...gallery.categories];
+const styleHref = (category: string) => `${url('/')}?stil=${encodeURIComponent(category)}#formular`;
+---
+<Base
+  page="galleri"
+  title="Galleri – Cakes by Clara"
+  description="Tårtor från Cakes by Clara i Mariestad – vintagetårtor och tematårtor. Hämta inspiration och bygg din egen tårta."
+>
+  <section class="container stack intro">
+    <p class="eyebrow">Galleri</p>
+    <h1 class="h1 title">Inspiration från bageriet</h1>
+    <p class="lead">Varje tårta byggs efter dina önskemål. Här är några jag har bakat – välj en stil du gillar så tar vi det därifrån.</p>
+  </section>
+
+  <section class="container filters" aria-label="Filtrera galleriet">
+    <div class="chips" role="group" aria-label="Kategori">
+      {filters.map((c, i) => <button type="button" class="chip" data-cat={c} aria-pressed={i === 0 ? 'true' : 'false'}>{c}</button>)}
+    </div>
+  </section>
+
+  <section class="container results">
+    <div class="grid gallery-grid">
+      {gallery.images.map((g) => (
+        <article class="stack item" data-cat={g.category}>
+          <div class="img-frame square">
+            <img src={img(g.img, 800)} alt={g.alt} loading="lazy" />
+            <span class="badge">{g.category}</span>
+          </div>
+          <h2>{g.title}</h2>
+          <a href={styleHref(g.category)} class="btn btn-primary btn-sm order-btn">Beställ i den här stilen</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="container cta">
+    <h2 class="h2 cta-title">Bygg din egen tårta – välj botten, fyllningar och stil.</h2>
+    <a href={`${url('/')}#formular`} class="btn btn-primary">Skicka en förfrågan</a>
+  </section>
+
+  <SimpleFooter slot="footer" />
+</Base>
+
+<script>
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.chip[data-cat]')];
+  const items = [...document.querySelectorAll<HTMLElement>('article.item')];
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const cat = b.dataset.cat!;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      items.forEach((item) => (item.hidden = cat !== 'Alla' && item.dataset.cat !== cat));
+    }),
+  );
+</script>
+
+<style>
+  .intro { padding-top: 48px; padding-bottom: 32px; gap: 20px; }
+  .title { font-size: clamp(48px, 6vw, 80px); max-width: 820px; }
+  .intro .lead { font-size: 18px; max-width: 600px; }
+
+  .filters { position: sticky; top: var(--header-h, 0px); z-index: 5; background: var(--bg); padding-top: 16px; padding-bottom: 16px; }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .chip {
+    min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong);
+    background: transparent; color: var(--ink); font-size: 15px; cursor: pointer;
+  }
+  .chip[aria-pressed='true'] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  .results { padding-top: 16px; padding-bottom: 96px; }
+  .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 40px 28px; }
+  .item { gap: 12px; }
+  .square { aspect-ratio: 1; }
+  .badge { position: absolute; top: 12px; left: 12px; background: var(--bg); padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+  .item h2 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 26px; }
+  .order-btn { align-self: flex-start; }
+
+  .cta { padding-top: 48px; padding-bottom: 96px; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; }
+  .cta-title { font-size: clamp(32px, 4vw, 48px); line-height: 1.05; max-width: 620px; }
+</style>

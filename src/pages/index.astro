@@ -5,21 +5,20 @@ import site from '../data/site.json';
 import cakes from '../data/cakes.json';
 import seasonal from '../data/seasonal.json';
 import order from '../data/order.json';
+import galleryData from '../data/gallery.json';
+import sizes from '../data/sizes.json';
 import faqs from '../data/faq.json';
 import reviews from '../data/reviews.json';
 import { img, url } from '../lib/url';
 
-const favorites = cakes.filter((c) => c.favorite);
-// Rekommenderade kombinationer: favoriterna, plus säsongens tårta när den sektionen visas
-const combos = cakes
-  .filter((c) => c.favorite || (site.show.seasonal && c.name === seasonal.cake))
-  .map((c) => ({ name: c.name, bottom: c.bottom, fillings: c.fillings }));
-// Alla tårtors botten och fyllningar, så att "Beställ den här" i sortimentet kan förvälja dem
-const allCombos = cakes.map((c) => ({ name: c.name, bottom: c.bottom, fillings: c.fillings }));
+// Rekommenderade kombinationer: tårtorna markerade favorite, plus säsongens tårta när den sektionen visas
+const recommended = cakes.filter((c) => c.favorite || (site.show.seasonal && c.name === seasonal.cake));
+const combos = recommended.map((c) => ({ name: c.name, bottom: c.bottom, fillings: c.fillings }));
+const comboHref = (name: string) => `?tarta=${encodeURIComponent(name)}#formular`;
 const diets = ['Glutenfri', 'Laktosfri', 'Vegansk', 'Nötfri'];
 const styles = ['Låt Clara föreslå', 'Vintage', 'Klassisk', 'Blommor', 'Tema'];
 const steps = [
-  { title: 'Skicka en förfrågan', text: 'Välj en favorit eller beskriv din idé. Ange datum, antal personer och eventuella allergier.' },
+  { title: 'Bygg din tårta', text: 'Välj botten, 1–3 fyllningar och stil – eller utgå från en populär kombination. Ange datum, antal personer och eventuella allergier.' },
   { title: 'Jag bekräftar', text: 'Inom ett dygn får du förslag, pris och hämttid.' },
   { title: 'Hämta eller få levererat', text: 'Hämta i butiken eller få tårtan levererad inom Mariestad.' },
 ];
@@ -30,14 +29,7 @@ const gallery = [
   { id: '1621303837174-89787a7d4729', alt: 'Doptårta' },
   { id: '1519225421980-715cb0215aed', alt: 'Tårtbord på fest' },
 ];
-const insta = [
-  'Spindelmannentårta i rött och blått',
-  'Ninjatårta i turkos',
-  'Två små tårtor med spritsad dekor',
-  'Siffertårta med blommor, hallon och maränger',
-  'Chokladtårta med spritsad dekor och pärlor',
-  'Tårta i rosa och lila med K-pop-tema',
-].map((alt, i) => ({ src: `images/insta-${i + 1}.webp`, alt }));
+const insta = galleryData.images;
 const [weekdays, saturday] = site.hours;
 ---
 <Base
@@ -52,7 +44,7 @@ const [weekdays, saturday] = site.hours;
       <p class="lead">Jag bakar varje tårta på beställning, med svenskt smör, säsongens bär och riktig vanilj. Berätta vad du firar så hjälper jag dig med resten.</p>
       <div class="btn-row">
         <a href="#formular" class="btn btn-primary">Beställ tårta</a>
-        <a href="#tartor" class="btn btn-outline">Se sortimentet</a>
+        <a href={url('galleri/')} class="btn btn-outline">Se galleriet</a>
       </div>
     </div>
     <div class="img-frame hero-img">
@@ -87,20 +79,21 @@ const [weekdays, saturday] = site.hours;
   <section id="tartor" class="band bg-alt band-96">
     <div class="inner stack gap-40">
       <div class="section-head">
-        <h2 class="h2">Kundernas favoriter</h2>
-        <a href={url('sortiment/')} class="text-link">Hela sortimentet →</a>
+        <h2 class="h2">Populära kombinationer</h2>
+        <a href={url('galleri/')} class="text-link">Se galleriet →</a>
       </div>
-      <p class="muted small-intro">De flesta tårtor kan bakas glutenfria, laktosfria eller veganska. Ange allergier i beställningen så anpassar jag. Bageriet hanterar nötter.</p>
+      <p class="muted small-intro">Du bygger din egen tårta – välj botten, fyllningar och stil. Vill du ha en utgångspunkt är det här kundernas favoriter. De flesta kan bakas glutenfria, laktosfria eller veganska. Bageriet hanterar nötter.</p>
       <div class="grid cards" style="--min:250px">
-        {favorites.map((c) => (
+        {recommended.map((c) => (
           <article class="stack card">
             <div class="img-frame square"><img src={img(c.img)} alt={c.name} loading="lazy" /></div>
             <div class="card-head">
               <h3>{c.name}</h3>
               <span class="price">från {c.price} kr</span>
             </div>
-            <p class="card-desc">{c.favoriteDesc ?? c.desc}</p>
+            <p class="card-desc">{c.bottom}botten · {c.fillings.join(', ')}</p>
             <div class="tags">{c.favoriteTags?.map((t) => <span class="tag">{t}</span>)}</div>
+            <a href={comboHref(c.name)} class="btn btn-outline btn-sm pick-btn">Välj kombinationen</a>
           </article>
         ))}
       </div>
@@ -133,6 +126,13 @@ const [weekdays, saturday] = site.hours;
           ))}
         </ol>
         <div class="stack delivery">
+          <strong>Storlekar och priser</strong>
+          <span>Priset för en kombination gäller 6–8 personer. Dekor, text och figurer offereras separat.</span>
+          <div class="sizes">
+            {sizes.map((s) => <div class="size-row"><span>{s.people}</span><span>{s.size}</span><span>{s.price}</span></div>)}
+          </div>
+        </div>
+        <div class="stack delivery">
           <strong>Leverans</strong>
           <span>{site.delivery}</span>
         </div>
@@ -155,7 +155,7 @@ const [weekdays, saturday] = site.hours;
           </div>
           <fieldset>
             <legend>Rekommenderade kombinationer</legend>
-            <div class="combos" id="combos" data-combos={JSON.stringify(allCombos)}>
+            <div class="combos" id="combos" data-combos={JSON.stringify(combos)}>
               {combos.map((c) => (
                 <button type="button" class="combo" data-combo={c.name} aria-pressed="false">
                   <span class="combo-name">{c.name}</span>
@@ -260,10 +260,11 @@ const [weekdays, saturday] = site.hours;
       <div class="section-head">
         <h2 class="h2 insta-title">Senast från bageriet</h2>
         {site.instagramUrl && <a href={site.instagramUrl} class="text-link">{site.instagramHandle} på Instagram →</a>}
+        {!site.instagramUrl && <a href={url('galleri/')} class="text-link">Se hela galleriet →</a>}
       </div>
       <div class="insta">
         {insta.map((p) => (
-          <div class="img-frame"><img src={img(p.src, 600)} alt={p.alt} loading="lazy" /></div>
+          <div class="img-frame"><img src={img(p.img, 600)} alt={p.alt} loading="lazy" /></div>
         ))}
       </div>
     </section>
@@ -304,12 +305,7 @@ const [weekdays, saturday] = site.hours;
   const date = document.querySelector<HTMLInputElement>('#order-date');
   if (date) date.min = new Date().toISOString().slice(0, 10);
 
-  // Förvald tårta och specialkost från sortimentet: /?tarta=Namn&kost=glutenfri,vegansk#formular
   const params = new URLSearchParams(location.search);
-  const kost = (params.get('kost') || '').toLowerCase().split(',').filter(Boolean);
-  document.querySelectorAll<HTMLInputElement>('#order-form input[name="Specialkost"]').forEach((box) => {
-    if (kost.includes(box.value.toLowerCase())) box.checked = true;
-  });
 
   // Kombinationer av botten och fyllningar
   type Combo = { name: string; bottom: string; fillings: string[] };
@@ -363,20 +359,14 @@ const [weekdays, saturday] = site.hours;
   fillingBoxes.forEach((b) => b.addEventListener('change', onManualChange));
   updateFillings();
 
-  // Förvald tårta från sortimentet: visas som kombination även om den inte finns bland de rekommenderade
+  // Förval från länkar: ?tarta=Namn (populär kombination) och ?stil=Vintage (från galleriet)
   const wanted = params.get('tarta');
   const wantedCombo = wanted && allCombos.find((c) => c.name === wanted);
-  if (wantedCombo) {
-    if (!comboButtons().some((b) => b.dataset.combo === wantedCombo.name)) {
-      const btn = comboButtons()[0].cloneNode(true) as HTMLButtonElement;
-      btn.dataset.combo = wantedCombo.name;
-      btn.querySelector('.combo-name')!.textContent = wantedCombo.name;
-      btn.querySelector('.combo-detail')!.textContent = `${wantedCombo.bottom}botten · ${wantedCombo.fillings.join(', ')}`;
-      comboBox.prepend(btn);
-    }
-    applyCombo(wantedCombo);
-  }
-  if (wanted) {
+  if (wantedCombo) applyCombo(wantedCombo);
+  const wantedStyle = params.get('stil');
+  const styleRadio = [...document.querySelectorAll<HTMLInputElement>('input[name="Stil"]')].find((r) => r.value === wantedStyle);
+  if (styleRadio) styleRadio.checked = true;
+  if (wanted || wantedStyle) {
     const card = document.getElementById('formular');
     setTimeout(() => card?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
   }
@@ -461,6 +451,10 @@ const [weekdays, saturday] = site.hours;
   .card-head h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 26px; }
   .price { font-size: 15px; font-weight: 500; color: var(--ink-muted); white-space: nowrap; }
   .card-desc { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-3); }
+  .pick-btn { align-self: flex-start; margin-top: 4px; }
+  .sizes { display: flex; flex-direction: column; margin-top: 6px; border-top: 1px solid var(--line-strong); }
+  .size-row { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line-strong); }
+  .size-row > :first-child { color: var(--ink); font-weight: 500; }
 
   .gallery-section { padding-top: 112px; padding-bottom: 112px; gap: 48px; }
   .gallery { grid-auto-rows: 260px; gap: 16px; }
