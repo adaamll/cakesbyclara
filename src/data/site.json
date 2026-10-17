@@ -1,0 +1,21 @@
+{
+  "name": "Cakes by Clara",
+  "street": "Rosengatan 12",
+  "postalCode": "542 30",
+  "city": "Mariestad",
+  "phone": "0501-12 34 56",
+  "phoneHref": "tel:0501123456",
+  "email": "hej@cakesbyclara.se",
+  "instagramHandle": "@cakesbyclara",
+  "instagramUrl": "https://www.instagram.com/cakesbyclara/",
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rosengatan+12%2C+542+30+Mariestad",
+  "hours": [
+    { "label": "Tis–fre", "days": ["Tu", "We", "Th", "Fr"], "opens": "10:00", "closes": "18:00", "text": "10–18" },
+    { "label": "Lör", "days": ["Sa"], "opens": "10:00", "closes": "15:00", "text": "10–15" }
+  ],
+  "closedText": "Sön–mån stängt",
+  "delivery": "Mariestad tätort 150 kr · Inom 3 mil 295 kr · Bröllop enligt offert",
+  "banner": "Beställ din tårta senast tre dagar innan – bröllopstårtor sex veckor innan.",
+  "show": { "banner": true, "seasonal": true, "instagram": true },
+  "formEndpoint": ""
+}

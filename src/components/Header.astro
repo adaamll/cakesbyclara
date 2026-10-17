@@ -1,0 +1,55 @@
+---
+import { url } from '../lib/url';
+
+interface Props {
+  page: 'home' | 'sortiment' | 'brollop';
+}
+const { page } = Astro.props;
+const home = page === 'home' ? '' : url('/');
+
+const links = [
+  { href: url('sortiment/'), label: 'Tårtor', current: page === 'sortiment' },
+  { href: url('brollop/'), label: 'Bröllop', current: page === 'brollop' },
+  ...(page === 'home' ? [{ href: '#bestall', label: 'Beställ' }] : []),
+  { href: `${home}#fragor`, label: 'Frågor' },
+  { href: `${home}#om`, label: 'Om Clara' },
+  { href: `${home}#hitta`, label: 'Hitta hit' },
+];
+const cta =
+  page === 'brollop'
+    ? { href: '#provsmakning', label: 'Boka provsmakning' }
+    : { href: `${home}#formular`, label: 'Beställ tårta' };
+---
+<header class="container site-header">
+  <a href={url('/')} class="logo" aria-label="Cakes by Clara">
+    <span class="logo-top">Cakes by</span>
+    <span class="logo-script">Clara</span>
+  </a>
+  <nav class="nav" aria-label="Huvudmeny">
+    {links.map((l) => <a href={l.href} aria-current={l.current ? 'page' : undefined}>{l.label}</a>)}
+    <a href={cta.href} class="nav-cta">{cta.label}</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Meny" aria-expanded="false" aria-controls="mobilmeny">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="mobilmeny" class="mobile-nav" aria-label="Mobilmeny" hidden>
+    {links.map((l) => <a href={l.href} aria-current={l.current ? 'page' : undefined}>{l.label}</a>)}
+    <a href={cta.href} class="nav-cta">{cta.label}</a>
+  </nav>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+  const menu = document.getElementById('mobilmeny');
+  if (btn && menu) {
+    const set = (open: boolean) => {
+      menu.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    btn.addEventListener('click', () => set(menu.hidden));
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) set(false);
+    });
+    window.matchMedia('(min-width: 860px)').addEventListener('change', (e) => e.matches && set(false));
+  }
+</script>

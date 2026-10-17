@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import site from '../data/site.json';
+
+interface Props {
+  title: string;
+  description: string;
+  page: 'home' | 'sortiment' | 'brollop';
+}
+
+const { title, description, page } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+const dayMap: Record<string, string> = {
+  Mo: 'Monday', Tu: 'Tuesday', We: 'Wednesday', Th: 'Thursday', Fr: 'Friday', Sa: 'Saturday', Su: 'Sunday',
+};
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Bakery',
+  name: site.name,
+  url: Astro.site?.toString(),
+  telephone: site.phone,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.street,
+    postalCode: site.postalCode,
+    addressLocality: site.city,
+    addressCountry: 'SE',
+  },
+  openingHoursSpecification: site.hours.map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days.map((d) => dayMap[d]),
+    opens: h.opens,
+    closes: h.closes,
+  })),
+  sameAs: [site.instagramUrl],
+};
+---
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="sv_SE" />
+    <meta name="theme-color" content="#fcf5f5" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Hanken+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    {page === 'home' && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    {site.show.banner && <div class="banner">{site.banner}</div>}
+    <Header page={page} />
+    <main>
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>

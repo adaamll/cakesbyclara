@@ -1,0 +1,388 @@
+---
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+import cakes from '../data/cakes.json';
+import seasonal from '../data/seasonal.json';
+import faqs from '../data/faq.json';
+import reviews from '../data/reviews.json';
+import { img, url } from '../lib/url';
+
+const favorites = cakes.filter((c) => c.favorite);
+const cakeOptions = [...favorites.map((c) => c.name), seasonal.cake, 'Egen idé'];
+const diets = ['Glutenfri', 'Laktosfri', 'Vegansk', 'Nötfri'];
+const steps = [
+  { title: 'Skicka en förfrågan', text: 'Välj en favorit eller beskriv din idé. Ange datum, antal personer och eventuella allergier.' },
+  { title: 'Jag bekräftar', text: 'Inom ett dygn får du förslag, pris och hämttid.' },
+  { title: 'Hämta eller få levererat', text: 'Hämta i butiken eller få tårtan levererad inom Mariestad.' },
+];
+const gallery = [
+  { id: '1535254973040-607b474cb50d', alt: 'Bröllopstårta i tre våningar' },
+  { id: '1558636508-e0db3814bd1d', alt: 'Barnkalastårta' },
+  { id: '1563729784474-d77dbb933a9e', alt: 'Detalj, sockerblommor' },
+  { id: '1621303837174-89787a7d4729', alt: 'Doptårta' },
+  { id: '1519225421980-715cb0215aed', alt: 'Tårtbord på fest' },
+];
+const insta = ['1464349095431-e9a21285b5f3', '1606890737304-57a1ca8a5b62', '1586985289688-ca3cf47d3e6e', '1588195538326-c5b1e9f80a1b', '1557925923-cd4648e211a0', '1559620192-032c4bc4674e'];
+const [weekdays, saturday] = site.hours;
+---
+<Base
+  page="home"
+  title="Cakes by Clara – handgjorda tårtor på beställning i Mariestad"
+  description="Tårtbageri i Mariestad. Tårtor på beställning för födelsedagar, kalas och bröllop – med svenskt smör, säsongens bär och riktig vanilj."
+>
+  <section class="container hero grid">
+    <div class="stack hero-text">
+      <p class="eyebrow">Handgjorda tårtor på beställning</p>
+      <h1 class="h1">Tårtor för dagar man vill <em>minnas</em></h1>
+      <p class="lead">Jag bakar varje tårta på beställning, med svenskt smör, säsongens bär och riktig vanilj. Berätta vad du firar så hjälper jag dig med resten.</p>
+      <div class="btn-row">
+        <a href="#formular" class="btn btn-primary">Beställ tårta</a>
+        <a href="#tartor" class="btn btn-outline">Se sortimentet</a>
+      </div>
+    </div>
+    <div class="img-frame hero-img">
+      <img src={img('1581745069539-1e60d7f965f4', 1600)} alt="Vit tårta med rosa rosor" fetchpriority="high" />
+      <a class="credit" href="https://unsplash.com/photos/white-cake-with-pink-roses-on-top-7c4dM_jyxz0">Foto: David Holifield / Unsplash</a>
+    </div>
+  </section>
+
+  <section id="hitta" class="container info-section">
+    <div class="info grid">
+      <div class="stack"><span class="label">Öppet idag</span><span id="oppet-idag" data-hours={JSON.stringify(site.hours)}>{weekdays.text}</span></div>
+      <div class="stack"><span class="label">{weekdays.label} / {saturday.label.toLowerCase()}</span><span>{weekdays.text} / {saturday.text}</span></div>
+      <div class="stack"><span class="label">Adress</span><a href={site.mapsUrl}>{site.street}, {site.city}</a></div>
+      <div class="stack"><span class="label">Telefon</span><a href={site.phoneHref}>{site.phone}</a></div>
+    </div>
+  </section>
+
+  {site.show.seasonal && (
+    <section class="container seasonal-section">
+      <div class="seasonal grid">
+        <div class="img-frame seasonal-img"><img src={img(seasonal.img)} alt={seasonal.alt} loading="lazy" /></div>
+        <div class="stack seasonal-text">
+          <p class="eyebrow">{seasonal.eyebrow}</p>
+          <h2 class="h2 seasonal-title">{seasonal.title}</h2>
+          <p class="seasonal-body">{seasonal.text}</p>
+          <a href={`?tarta=${encodeURIComponent(seasonal.cake)}#formular`} class="btn btn-primary btn-md">{seasonal.cta}</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section id="tartor" class="band bg-alt band-96">
+    <div class="inner stack gap-40">
+      <div class="section-head">
+        <h2 class="h2">Kundernas favoriter</h2>
+        <a href={url('sortiment/')} class="text-link">Hela sortimentet →</a>
+      </div>
+      <p class="muted small-intro">De flesta tårtor kan bakas glutenfria, laktosfria eller veganska. Ange allergier i beställningen så anpassar jag. Bageriet hanterar nötter.</p>
+      <div class="grid cards" style="--min:250px">
+        {favorites.map((c) => (
+          <article class="stack card">
+            <div class="img-frame square"><img src={img(c.img)} alt={c.name} loading="lazy" /></div>
+            <div class="card-head">
+              <h3>{c.name}</h3>
+              <span class="price">från {c.price} kr</span>
+            </div>
+            <p class="card-desc">{c.favoriteDesc ?? c.desc}</p>
+            <div class="tags">{c.favoriteTags?.map((t) => <span class="tag">{t}</span>)}</div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="galleri" class="container stack gallery-section">
+    <div class="section-head">
+      <h2 class="h2">Bröllop & fester</h2>
+      <a href={url('brollop/')} class="text-link">Bröllopstårtor →</a>
+    </div>
+    <div class="grid gallery" style="--min:280px">
+      {gallery.map((g) => <div class="img-frame"><img src={img(g.id)} alt={g.alt} loading="lazy" /></div>)}
+    </div>
+  </section>
+
+  <section id="bestall" class="band bg-alt">
+    <div class="inner grid order" style="--min:400px">
+      <div class="stack gap-40">
+        <h2 class="h2">Så beställer du</h2>
+        <ol class="steps">
+          {steps.map((s, i) => (
+            <li>
+              <span class="step-n">{i + 1}</span>
+              <div class="stack">
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <div class="stack delivery">
+          <strong>Leverans</strong>
+          <span>{site.delivery}</span>
+        </div>
+      </div>
+
+      <div id="formular" class="form-card">
+        <form class="form" id="order-form" data-endpoint={site.formEndpoint || undefined}>
+          <h3 class="form-title">Skicka en förfrågan</h3>
+          <input type="hidden" name="_subject" value="Ny tårtbeställning" />
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="grid form-grid">
+            <label class="field">Namn<input required name="namn" autocomplete="name" /></label>
+            <label class="field">E-post eller telefon<input required name="kontakt" autocomplete="email" /></label>
+            <label class="field">Datum<input required type="date" name="datum" id="order-date" /></label>
+            <label class="field">Antal personer
+              <select name="antal">
+                <option>6–8</option><option>10–12</option><option>15–20</option><option>25–40</option><option>Fler än 40</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">Tårta
+            <select name="tarta" id="cake-select">
+              {cakeOptions.map((o) => <option value={o}>{o}</option>)}
+            </select>
+          </label>
+          <fieldset>
+            <legend>Specialkost</legend>
+            <div class="pills">
+              {diets.map((d) => <label class="pill"><input type="checkbox" name="kost" value={d} />{d}</label>)}
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Hämtning eller leverans</legend>
+            <div class="pills">
+              <label class="pill"><input type="radio" name="leverans" value="Hämtar i butiken" checked />Hämtar i butiken</label>
+              <label class="pill"><input type="radio" name="leverans" value="Leverans" />Leverans</label>
+            </div>
+          </fieldset>
+          <label class="field">Önskemål och allergier<textarea name="onskemal" rows="4" placeholder="Färger, text på tårtan, tema, allergier…"></textarea></label>
+          <button type="submit" class="submit">Skicka förfrågan</button>
+          <p class="form-error" hidden>Något gick fel. Försök igen eller ring {site.phone}.</p>
+          <p class="form-note">Du får svar inom ett dygn. Förfrågan är inte bindande.</p>
+        </form>
+        <div class="thanks" id="order-thanks" hidden>
+          <h3>Tack, <span id="thanks-name"></span>!</h3>
+          <p>Jag har fått din förfrågan och återkommer inom ett dygn med förslag och pris.</p>
+          <button type="button" class="btn btn-outline btn-sm" id="order-again">Skicka en till</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container grid reviews" style="--min:320px">
+    {reviews.map((r) => (
+      <figure class="stack">
+        <blockquote>”{r.quote}”</blockquote>
+        <figcaption>{r.name}</figcaption>
+      </figure>
+    ))}
+  </section>
+
+  <section id="fragor" class="container faq-section">
+    <h2 class="h2 faq-title">Vanliga frågor</h2>
+    <div class="faq">
+      {faqs.map((f, i) => (
+        <div class="faq-item">
+          <button type="button" aria-expanded={i === 0 ? 'true' : 'false'} aria-controls={`faq-${i}`}>
+            <span>{f.q}</span>
+            <span class="faq-sign" aria-hidden="true">{i === 0 ? '−' : '+'}</span>
+          </button>
+          <p id={`faq-${i}`} hidden={i !== 0}>{f.a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="om" class="band bg-strong">
+    <div class="inner grid about" style="--min:380px">
+      <div class="img-frame about-img">
+        {/* Byt mot en bild på Clara: lägg filen i public/images/ och ange src="images/clara.jpg" */}
+        <div class="img-placeholder">Här kommer en bild på Clara</div>
+      </div>
+      <div class="stack about-text">
+        <h2 class="h2">Hej, jag heter Clara</h2>
+        <p>Jag älskar att baka tårtor – att hitta smaker som passar ihop, forma dekorationer för hand och se glädjen när en tårta bärs fram. Därför öppnade jag Cakes by Clara. Allt bakas i mitt bageri från grunden, och varje tårta formges tillsammans med dig.</p>
+        <a href="#om" class="text-link">Läs mer om mig</a>
+      </div>
+    </div>
+  </section>
+
+  {site.show.instagram && (
+    <section class="container stack insta-section">
+      <div class="section-head">
+        <h2 class="h2 insta-title">Senast från bageriet</h2>
+        <a href={site.instagramUrl} class="text-link">{site.instagramHandle} på Instagram →</a>
+      </div>
+      <div class="insta">
+        {insta.map((id) => (
+          <a href={site.instagramUrl} class="img-frame" aria-label="Instagraminlägg">
+            <img src={img(id, 600)} alt="" loading="lazy" />
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <footer slot="footer" class="container stack big-footer">
+    <div class="grid footer-cols" style="--min:220px">
+      <div class="footer-brand">Cakes by <em>Clara</em></div>
+      <div class="stack"><strong>Besök</strong><span>{site.street}</span><span>{site.postalCode} {site.city}</span></div>
+      <div class="stack">
+        <strong>Öppettider</strong>
+        {site.hours.map((h) => <span>{h.label} {h.text}</span>)}
+        <span>{site.closedText}</span>
+      </div>
+      <div class="stack">
+        <strong>Kontakt</strong>
+        <a href={site.phoneHref}>{site.phone}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a href={site.instagramUrl}>Instagram</a>
+      </div>
+    </div>
+    <p class="copyright">© {new Date().getFullYear()} Cakes by Clara</p>
+  </footer>
+</Base>
+
+<script>
+  import { setupForm } from '../lib/forms';
+
+  // "Öppet idag" utifrån veckodag och öppettiderna i site.json
+  const today = document.getElementById('oppet-idag');
+  if (today?.dataset.hours) {
+    const day = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'][new Date().getDay()];
+    const hours: { days: string[]; text: string }[] = JSON.parse(today.dataset.hours);
+    today.textContent = hours.find((h) => h.days.includes(day))?.text ?? 'Stängt';
+  }
+
+  // Datum kan inte väljas bakåt i tiden
+  const date = document.querySelector<HTMLInputElement>('#order-date');
+  if (date) date.min = new Date().toISOString().slice(0, 10);
+
+  // Förvald tårta från sortimentet: /?tarta=Namn#formular
+  const select = document.querySelector<HTMLSelectElement>('#cake-select');
+  const wanted = new URLSearchParams(location.search).get('tarta');
+  if (select && wanted) {
+    if (![...select.options].some((o) => o.value === wanted)) {
+      select.prepend(new Option(wanted, wanted));
+    }
+    select.value = wanted;
+    const card = document.getElementById('formular');
+    setTimeout(() => card?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+  }
+
+  // Beställningsformulär
+  const form = document.querySelector<HTMLFormElement>('#order-form');
+  const thanks = document.getElementById('order-thanks');
+  const nameEl = document.getElementById('thanks-name');
+  if (form && thanks && nameEl) {
+    setupForm(form, (data) => {
+      nameEl.textContent = String(data.get('namn') || '').trim().split(' ')[0];
+      form.hidden = true;
+      thanks.hidden = false;
+    });
+    document.getElementById('order-again')?.addEventListener('click', () => {
+      form.reset();
+      form.hidden = false;
+      thanks.hidden = true;
+    });
+  }
+
+  // FAQ: en fråga öppen åt gången
+  const items = [...document.querySelectorAll<HTMLElement>('.faq-item')];
+  const setOpen = (item: HTMLElement, open: boolean) => {
+    item.querySelector('button')!.setAttribute('aria-expanded', String(open));
+    item.querySelector('p')!.hidden = !open;
+    item.querySelector('.faq-sign')!.textContent = open ? '−' : '+';
+  };
+  items.forEach((item) =>
+    item.querySelector('button')!.addEventListener('click', () => {
+      const wasOpen = item.querySelector('button')!.getAttribute('aria-expanded') === 'true';
+      items.forEach((i) => setOpen(i, false));
+      if (!wasOpen) setOpen(item, true);
+    }),
+  );
+</script>
+
+<style>
+  .hero { --min: 420px; gap: 56px; align-items: center; padding-top: 40px; padding-bottom: 72px; }
+  .hero-text { gap: 28px; }
+  .hero-img { aspect-ratio: 4 / 5; border-radius: 220px 220px 16px 16px; }
+  .credit {
+    position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); font-size: 11px;
+    background: rgba(252, 245, 245, 0.85); padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  }
+
+  .info-section { padding-bottom: 72px; }
+  .info { --min: 220px; gap: 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; font-size: 15px; }
+  .info .stack { gap: 4px; }
+
+  .seasonal-section { padding-bottom: 96px; }
+  .seasonal { --min: 360px; background: var(--bg-strong); border-radius: 24px; overflow: hidden; }
+  .seasonal-img { min-height: 320px; border-radius: 0; background: #ecccd2; }
+  .seasonal-text { padding: 48px; gap: 20px; justify-content: center; }
+  .seasonal-text .eyebrow { color: var(--ink-3); }
+  .seasonal-title { font-size: clamp(36px, 4vw, 52px); }
+  .seasonal-body { margin: 0; font-size: 17px; line-height: 1.55; color: var(--ink-2); max-width: 440px; }
+  .btn-md { padding: 14px 24px; font-size: 15px; align-self: flex-start; }
+
+  .band-96 { padding-top: 96px; padding-bottom: 96px; }
+  .gap-40 { gap: 40px; }
+  .small-intro { margin: 0; font-size: 15px; line-height: 1.55; max-width: 640px; }
+  .cards { gap: 28px; }
+  .card { gap: 14px; }
+  .square { aspect-ratio: 1; background: var(--line); }
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .card-head h3 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 26px; }
+  .price { font-size: 15px; font-weight: 500; color: var(--ink-muted); white-space: nowrap; }
+  .card-desc { margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink-3); }
+
+  .gallery-section { padding-top: 112px; padding-bottom: 112px; gap: 48px; }
+  .gallery { grid-auto-rows: 260px; gap: 16px; }
+  .gallery > :first-child { grid-row: span 2; }
+
+  .order { gap: 64px; align-items: start; }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 28px; }
+  .steps li { display: grid; grid-template-columns: 48px 1fr; gap: 16px; border-top: 1px solid var(--ink); padding-top: 20px; }
+  .steps .stack { gap: 8px; }
+  .step-n { font-family: var(--serif); font-size: 40px; line-height: 1; color: var(--accent); }
+  .steps h3 { margin: 0; font-size: 18px; font-weight: 600; }
+  .steps p { margin: 0; font-size: 16px; line-height: 1.55; color: var(--ink-3); }
+  .delivery { gap: 6px; font-size: 15px; line-height: 1.55; color: var(--ink-3); }
+  .delivery strong { color: var(--ink); font-weight: 600; }
+  .form-title { margin: 0 0 4px; font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.05; }
+  .thanks .btn { align-self: flex-start; }
+
+  .reviews { padding-top: 112px; padding-bottom: 112px; gap: 48px; }
+  .reviews figure { margin: 0; gap: 18px; }
+  .reviews blockquote { margin: 0; font-family: var(--serif); font-size: 28px; line-height: 1.25; text-wrap: pretty; }
+  .reviews figcaption { font-size: 14px; color: var(--ink-muted); }
+
+  .faq-section { padding-bottom: 112px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
+  .faq-title { flex: 1 1 280px; }
+  .faq { display: flex; flex-direction: column; border-top: 1px solid var(--line); flex: 2 1 480px; min-width: 0; }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-item button {
+    width: 100%; min-height: 64px; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    background: transparent; border: 0; padding: 18px 0; text-align: left; font-size: 18px; font-weight: 500;
+    color: var(--ink); cursor: pointer;
+  }
+  .faq-sign { font-size: 24px; font-weight: 400; color: var(--accent); flex-shrink: 0; }
+  .faq-item p { margin: 0; padding: 0 0 22px; font-size: 16px; line-height: 1.6; color: var(--ink-3); max-width: 640px; }
+
+  .about { gap: 64px; align-items: center; }
+  .about-img { aspect-ratio: 1; border-radius: 16px; background: #ecccd2; }
+  .about-text { gap: 24px; }
+  .about-text p { margin: 0; font-size: 18px; line-height: 1.6; color: var(--ink-2); max-width: 520px; text-wrap: pretty; }
+
+  .insta-section { padding-top: 112px; padding-bottom: 48px; gap: 32px; }
+  .insta-title { font-size: clamp(32px, 4vw, 44px); }
+  .insta { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 10px; }
+  .insta .img-frame { display: block; aspect-ratio: 1; border-radius: 8px; }
+
+  .big-footer { padding-top: 72px; padding-bottom: 48px; gap: 48px; }
+  .footer-cols { gap: 32px; font-size: 15px; line-height: 1.7; }
+  .footer-cols strong { font-weight: 600; }
+  .footer-brand { font-family: var(--serif); font-size: 30px; line-height: 1; }
+  .copyright { margin: 0; font-size: 13px; color: var(--ink-muted); }
+</style>

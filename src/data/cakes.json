@@ -1,0 +1,14 @@
+[
+  { "name": "Hallon & vanilj", "cat": "Fruktiga", "price": 495, "desc": "Vaniljbotten, hallonkräm och färska hallon.", "favoriteDesc": "Vaniljbotten, hallonkräm och färska hallon. Vår mest beställda.", "img": "1565958011703-44f9829ba187", "diets": ["glutenfri", "laktosfri"], "badge": "Mest beställd", "favorite": true, "favoriteTags": ["Kan bli glutenfri", "Kan bli laktosfri"] },
+  { "name": "Prinsesstårta", "cat": "Klassiker", "price": 450, "desc": "Ljusrosa marsipan, vaniljkräm och hallonsylt.", "favoriteDesc": "Klassisk, med ljusrosa marsipan och vaniljkräm.", "img": "1571115177098-24ec42ed204d", "diets": ["glutenfri"], "favorite": true, "favoriteTags": ["Kan bli glutenfri", "Innehåller mandel"] },
+  { "name": "Choklad & körsbär", "cat": "Choklad", "price": 525, "desc": "Mörk chokladbotten, körsbärskompott och ganache.", "img": "1578985545062-69928b1d9587", "diets": ["vegansk", "laktosfri"], "favorite": true, "favoriteTags": ["Kan bli vegansk", "Kan bli laktosfri"] },
+  { "name": "Citron & fläder", "cat": "Fruktiga", "price": 475, "desc": "Citronkurd, flädercrème och mjuk sockerkaka.", "favoriteDesc": "Lätt och frisk, med citronkurd och flädercrème.", "img": "1488477181946-6428a0291777", "diets": ["glutenfri", "vegansk"], "favorite": true, "favoriteTags": ["Kan bli glutenfri", "Kan bli vegansk"] },
+  { "name": "Äpple, kanel & brynt smör", "cat": "Säsong", "price": 525, "desc": "Kanelbotten, svenska äpplen och kola på brynt smör.", "img": "1607478900766-efe13248b125", "diets": ["glutenfri"], "badge": "Höst" },
+  { "name": "Schwarzwald", "cat": "Choklad", "price": 495, "desc": "Chokladbotten, grädde, körsbär och kirsch.", "img": "1606890737304-57a1ca8a5b62", "diets": ["laktosfri"] },
+  { "name": "Jordgubbstårta", "cat": "Klassiker", "price": 450, "desc": "Sockerkaka, vaniljkräm, grädde och svenska jordgubbar.", "img": "1464349095431-e9a21285b5f3", "diets": ["glutenfri", "laktosfri"] },
+  { "name": "Regnbågstårta", "cat": "Barnkalas", "price": 550, "desc": "Sex färgade lager med vaniljfrosting. Valfri text.", "img": "1558636508-e0db3814bd1d", "diets": ["laktosfri"] },
+  { "name": "Enhörning", "cat": "Barnkalas", "price": 650, "desc": "Vanilj och jordgubb, med handgjort horn och öron.", "img": "1586985289688-ca3cf47d3e6e", "diets": [] },
+  { "name": "Pistage & hallon", "cat": "Fruktiga", "price": 545, "desc": "Pistagebotten, hallongelé och vit choklad.", "img": "1588195538326-c5b1e9f80a1b", "diets": ["glutenfri"] },
+  { "name": "Kladdkakstårta", "cat": "Choklad", "price": 425, "desc": "Kladdkaka, mjölkchokladmousse och flingsalt.", "img": "1557925923-cd4648e211a0", "diets": ["glutenfri", "vegansk"] },
+  { "name": "Hjortron & vit choklad", "cat": "Säsong", "price": 575, "desc": "Vit chokladmousse och hjortronkompott.", "img": "1559620192-032c4bc4674e", "diets": ["glutenfri"] }
+]

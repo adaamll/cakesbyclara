@@ -1,0 +1,7 @@
+[
+  { "people": "6–8 personer", "size": "18 cm", "price": "grundpris" },
+  { "people": "10–12 personer", "size": "22 cm", "price": "+150 kr" },
+  { "people": "15–20 personer", "size": "26 cm", "price": "+325 kr" },
+  { "people": "25–30 personer", "size": "2 våningar", "price": "+650 kr" },
+  { "people": "Fler än 30", "size": "Våningstårta", "price": "Offert" }
+]

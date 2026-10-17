@@ -1,0 +1,14 @@
+{
+  "process": [
+    { "when": "3–9 månader innan", "title": "Provsmakning", "text": "Ni smakar fyra smaker i bageriet och berättar om er dag." },
+    { "when": "Inom en vecka", "title": "Skiss & offert", "text": "Ni får en skiss av tårtan och en offert. Handpenning 30 % säkrar datumet." },
+    { "when": "Fyra veckor innan", "title": "Sista detaljerna", "text": "Vi stämmer av antal gäster, blommor och leveranstid med lokalen." },
+    { "when": "På bröllopsdagen", "title": "Leverans", "text": "Jag levererar och dukar upp tårtan på plats, så att ni slipper tänka på den." }
+  ],
+  "prices": [
+    { "guests": "Upp till 40 gäster", "tiers": "2 våningar", "price": "från 2 900 kr" },
+    { "guests": "40–70 gäster", "tiers": "3 våningar", "price": "från 4 600 kr" },
+    { "guests": "70–100 gäster", "tiers": "3–4 våningar", "price": "från 6 400 kr" },
+    { "guests": "Fler än 100", "tiers": "Våningar + skärtårta", "price": "Offert" }
+  ]
+}
