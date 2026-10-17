@@ -1,5 +1,7 @@
 # Cakes by Clara
 
+Live: https://cakesbyclara.se
+
 Webbplats för Cakes by Clara, ett tårtbageri i Mariestad. Byggd med [Astro](https://astro.build) utifrån designen i `design/`.
 
 ## Kom igång
@@ -55,7 +57,7 @@ Vid push till `main` byggs och publiceras sajten med GitHub Pages
 - [ ] Integritetspolicy (GDPR) och köpvillkor
 - [ ] Länken "Läs mer om mig" saknar en egen sida
 - [ ] Instagram: fyll i instagramUrl i site.json om ett eget konto skapas, så visas länkarna igen
-- [ ] Egen domän (t.ex. cakesbyclara.se)
+- [x] Egen domän: cakesbyclara.se (DNS hos Strato)
 
 ## Design
 
