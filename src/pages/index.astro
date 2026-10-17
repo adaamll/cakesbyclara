@@ -136,34 +136,34 @@ const [weekdays, saturday] = site.hours;
           <input type="hidden" name="_subject" value="Ny tårtbeställning" />
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <div class="grid form-grid">
-            <label class="field">Namn<input required name="namn" autocomplete="name" /></label>
-            <label class="field">E-post eller telefon<input required name="kontakt" autocomplete="email" /></label>
-            <label class="field">Datum<input required type="date" name="datum" id="order-date" /></label>
+            <label class="field">Namn<input required name="Namn" autocomplete="name" /></label>
+            <label class="field">E-post eller telefon<input required name="Kontakt" autocomplete="email" /></label>
+            <label class="field">Datum<input required type="date" name="Datum" id="order-date" /></label>
             <label class="field">Antal personer
-              <select name="antal">
+              <select name="Antal personer">
                 <option>6–8</option><option>10–12</option><option>15–20</option><option>25–40</option><option>Fler än 40</option>
               </select>
             </label>
           </div>
           <label class="field">Tårta
-            <select name="tarta" id="cake-select">
+            <select name="Tårta" id="cake-select">
               {cakeOptions.map((o) => <option value={o}>{o}</option>)}
             </select>
           </label>
           <fieldset>
             <legend>Specialkost</legend>
             <div class="pills">
-              {diets.map((d) => <label class="pill"><input type="checkbox" name="kost" value={d} />{d}</label>)}
+              {diets.map((d) => <label class="pill"><input type="checkbox" name="Specialkost" value={d} />{d}</label>)}
             </div>
           </fieldset>
           <fieldset>
             <legend>Hämtning eller leverans</legend>
             <div class="pills">
-              <label class="pill"><input type="radio" name="leverans" value="Hämtar i butiken" checked />Hämtar i butiken</label>
-              <label class="pill"><input type="radio" name="leverans" value="Leverans" />Leverans</label>
+              <label class="pill"><input type="radio" name="Hämtning eller leverans" value="Hämtar i butiken" checked />Hämtar i butiken</label>
+              <label class="pill"><input type="radio" name="Hämtning eller leverans" value="Leverans" />Leverans</label>
             </div>
           </fieldset>
-          <label class="field">Önskemål och allergier<textarea name="onskemal" rows="4" placeholder="Färger, text på tårtan, tema, allergier…"></textarea></label>
+          <label class="field">Önskemål och allergier<textarea name="Önskemål och allergier" rows="4" placeholder="Färger, text på tårtan, tema, allergier…"></textarea></label>
           <button type="submit" class="submit">Skicka förfrågan</button>
           <p class="form-error" hidden>Något gick fel. Försök igen eller ring {site.phone}.</p>
           <p class="form-note">Du får svar inom ett dygn. Förfrågan är inte bindande.</p>
@@ -266,7 +266,7 @@ const [weekdays, saturday] = site.hours;
   // Förvald tårta och specialkost från sortimentet: /?tarta=Namn&kost=glutenfri,vegansk#formular
   const params = new URLSearchParams(location.search);
   const kost = (params.get('kost') || '').toLowerCase().split(',').filter(Boolean);
-  document.querySelectorAll<HTMLInputElement>('#order-form input[name="kost"]').forEach((box) => {
+  document.querySelectorAll<HTMLInputElement>('#order-form input[name="Specialkost"]').forEach((box) => {
     if (kost.includes(box.value.toLowerCase())) box.checked = true;
   });
 
@@ -287,7 +287,7 @@ const [weekdays, saturday] = site.hours;
   const nameEl = document.getElementById('thanks-name');
   if (form && thanks && nameEl) {
     setupForm(form, (data) => {
-      nameEl.textContent = String(data.get('namn') || '').trim().split(' ')[0];
+      nameEl.textContent = String(data.get('Namn') || '').trim().split(' ')[0];
       form.hidden = true;
       thanks.hidden = false;
     });

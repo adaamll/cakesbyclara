@@ -17,5 +17,5 @@
   "delivery": "Mariestad tätort 150 kr · Inom 3 mil 295 kr · Bröllop enligt offert",
   "banner": "Beställ din tårta senast tre dagar innan – bröllopstårtor sex veckor innan.",
   "show": { "banner": true, "seasonal": true, "instagram": true },
-  "formEndpoint": ""
+  "formEndpoint": "https://formspree.io/f/xeaenqwk"
 }

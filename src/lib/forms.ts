@@ -14,6 +14,15 @@ export function setupForm(form: HTMLFormElement, onSent: (data: FormData) => voi
     const data = new FormData(form);
     if (data.get('_gotcha')) return; // spamfälla
 
+    // Flera ikryssade rutor (t.ex. specialkost) skickas som en rad: "Glutenfri, Vegansk"
+    for (const key of new Set(data.keys())) {
+      const values = data.getAll(key);
+      if (values.length > 1) data.set(key, values.join(', '));
+    }
+    // Svara direkt i mejlet när kunden har angett en e-postadress
+    const contact = String(data.get('Kontakt') || '');
+    if (contact.includes('@')) data.set('_replyto', contact.trim());
+
     const endpoint = form.dataset.endpoint;
     if (!endpoint) {
       onSent(data);

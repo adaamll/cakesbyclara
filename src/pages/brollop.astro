@@ -83,14 +83,14 @@ const gallery = [
         <input type="hidden" name="_subject" value="Bokning av provsmakning (bröllop)" />
         <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div class="grid form-grid">
-          <label class="field">Era namn<input required name="namn" autocomplete="name" /></label>
-          <label class="field">E-post eller telefon<input required name="kontakt" autocomplete="email" /></label>
-          <label class="field">Bröllopsdatum<input required type="date" name="datum" id="wedding-date" /></label>
+          <label class="field">Era namn<input required name="Namn" autocomplete="name" /></label>
+          <label class="field">E-post eller telefon<input required name="Kontakt" autocomplete="email" /></label>
+          <label class="field">Bröllopsdatum<input required type="date" name="Bröllopsdatum" id="wedding-date" /></label>
           <label class="field">Antal gäster
-            <select name="gaster"><option>Upp till 40</option><option>40–70</option><option>70–100</option><option>Fler än 100</option></select>
+            <select name="Antal gäster"><option>Upp till 40</option><option>40–70</option><option>70–100</option><option>Fler än 100</option></select>
           </label>
         </div>
-        <label class="field">Plats och tankar om tårtan<textarea name="onskemal" rows="4" placeholder="Var ni gifter er, färger, stil, inspiration…"></textarea></label>
+        <label class="field">Plats och tankar om tårtan<textarea name="Plats och tankar om tårtan" rows="4" placeholder="Var ni gifter er, färger, stil, inspiration…"></textarea></label>
         <button type="submit" class="submit">Skicka förfrågan</button>
         <p class="form-error" hidden>Något gick fel. Försök igen eller ring {site.phone}.</p>
       </form>

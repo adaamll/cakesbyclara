@@ -32,9 +32,10 @@ Färger och typsnitt finns som variabler i `src/styles/global.css`.
 
 ## Formulär
 
-Formulären visar i dag bara ett tackmeddelande. För att få beställningar som e-post:
-skapa ett formulär hos t.ex. [Formspree](https://formspree.io) och klistra in adressen i
-`formEndpoint` i `src/data/site.json`. Formulären har redan en spamfälla (`_gotcha`).
+Båda formulären (beställning och provsmakning) skickas via [Formspree](https://formspree.io)
+till adressen i `formEndpoint` i `src/data/site.json`. Formspree mejlar varje förfrågan vidare.
+Fältens `name` blir rubrikerna i mejlet, flera ikryssade rutor skickas som en rad och
+`_replyto` sätts när kunden anger en e-postadress. Formulären har även en spamfälla (`_gotcha`).
 
 ## Publicering
 
@@ -47,7 +48,7 @@ Vid push till `main` byggs och publiceras sajten med GitHub Pages
 - [x] Bild på Clara (Om Clara)
 - [x] Bild till bröllopshero
 - [ ] Riktiga uppgifter: adress, telefon, öppettider, priser, leveranszoner, omdömen
-- [ ] Koppla formulären till e-post (se ovan)
+- [x] Koppla formulären till e-post (Formspree)
 - [ ] Integritetspolicy (GDPR) och köpvillkor
 - [ ] Länken "Läs mer om mig" saknar en egen sida
 - [ ] Instagram: fyll i instagramUrl i site.json om ett eget konto skapas, så visas länkarna igen
