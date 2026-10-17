@@ -1,0 +1,30 @@
+{
+  "bottoms": [
+    "Låt Clara föreslå",
+    "Vanilj",
+    "Choklad",
+    "Citron",
+    "Kanel",
+    "Pistage",
+    "Mandel",
+    "Red velvet",
+    "Kladdkaka"
+  ],
+  "fillings": [
+    "Vaniljkräm",
+    "Grädde",
+    "Hallon",
+    "Jordgubb",
+    "Körsbär",
+    "Citronkurd",
+    "Flädercrème",
+    "Äpple",
+    "Hjortron",
+    "Passionsfrukt",
+    "Chokladmousse",
+    "Chokladganache",
+    "Vit choklad",
+    "Kola på brynt smör"
+  ],
+  "maxFillings": 3
+}

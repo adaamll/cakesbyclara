@@ -24,7 +24,8 @@ npm run preview  # förhandsvisar det byggda resultatet
 Texter, priser och listor ligger i `src/data/`:
 
 - `site.json` – adress, telefon, e-post, öppettider, leveranspriser, toppbanner och av/på för sektioner (`show`)
-- `cakes.json` – alla tårtor (`favorite: true` visar tårtan under "Kundernas favoriter" på startsidan)
+- `cakes.json` – alla tårtor (`favorite: true` visar tårtan under "Kundernas favoriter" och som rekommenderad kombination i formuläret; `bottom` och `fillings` förväljs när kunden beställer tårtan)
+- `order.json` – valbara tårtbottnar och fyllningar i beställningsformuläret (och max antal fyllningar)
 - `seasonal.json` – säsongens tårta
 - `faq.json`, `reviews.json`, `sizes.json`, `wedding.json`
 

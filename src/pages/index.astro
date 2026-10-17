@@ -3,16 +3,20 @@ import Base from '../layouts/Base.astro';
 import site from '../data/site.json';
 import cakes from '../data/cakes.json';
 import seasonal from '../data/seasonal.json';
+import order from '../data/order.json';
 import faqs from '../data/faq.json';
 import reviews from '../data/reviews.json';
 import { img, url } from '../lib/url';
 
 const favorites = cakes.filter((c) => c.favorite);
-const cakeOptions = [...favorites.map((c) => c.name), seasonal.cake, 'Egen idé'];
+// Rekommenderade kombinationer: favoriterna och säsongens tårta
+const combos = cakes
+  .filter((c) => c.favorite || c.name === seasonal.cake)
+  .map((c) => ({ name: c.name, bottom: c.bottom, fillings: c.fillings }));
+// Alla tårtors botten och fyllningar, så att "Beställ den här" i sortimentet kan förvälja dem
+const allCombos = cakes.map((c) => ({ name: c.name, bottom: c.bottom, fillings: c.fillings }));
 const diets = ['Glutenfri', 'Laktosfri', 'Vegansk', 'Nötfri'];
 const styles = ['Låt Clara föreslå', 'Vintage', 'Klassisk', 'Blommor', 'Tema'];
-const bottoms = ['Låt Clara föreslå', 'Vanilj', 'Choklad', 'Citron', 'Mandel', 'Red velvet', 'Kladdkaka'];
-const fillings = ['Låt Clara föreslå', 'Vaniljkräm', 'Hallon', 'Jordgubb', 'Citronkurd', 'Chokladmousse', 'Kola på brynt smör', 'Passionsfrukt'];
 const steps = [
   { title: 'Skicka en förfrågan', text: 'Välj en favorit eller beskriv din idé. Ange datum, antal personer och eventuella allergier.' },
   { title: 'Jag bekräftar', text: 'Inom ett dygn får du förslag, pris och hämttid.' },
@@ -148,23 +152,29 @@ const [weekdays, saturday] = site.hours;
               </select>
             </label>
           </div>
-          <label class="field">Tårta
-            <select name="Tårta" id="cake-select">
-              {cakeOptions.map((o) => <option value={o}>{o}</option>)}
+          <fieldset>
+            <legend>Rekommenderade kombinationer</legend>
+            <div class="combos" id="combos" data-combos={JSON.stringify(allCombos)}>
+              {combos.map((c) => (
+                <button type="button" class="combo" data-combo={c.name} aria-pressed="false">
+                  <span class="combo-name">{c.name}</span>
+                  <span class="combo-detail">{c.bottom}botten · {c.fillings.join(', ')}</span>
+                </button>
+              ))}
+            </div>
+            <input type="hidden" name="Kombination" id="combo-field" value="Egen kombination" />
+          </fieldset>
+          <label class="field">Tårtbotten
+            <select name="Tårtbotten" id="bottom-select">
+              {order.bottoms.map((o) => <option value={o}>{o}</option>)}
             </select>
           </label>
-          <div class="grid form-grid">
-            <label class="field">Tårtbotten
-              <select name="Tårtbotten">
-                {bottoms.map((o) => <option value={o}>{o}</option>)}
-              </select>
-            </label>
-            <label class="field">Fyllning
-              <select name="Fyllning">
-                {fillings.map((o) => <option value={o}>{o}</option>)}
-              </select>
-            </label>
-          </div>
+          <fieldset id="fillings" data-max={order.maxFillings}>
+            <legend>Fyllning <span class="legend-hint">välj 1–{order.maxFillings}</span></legend>
+            <div class="pills">
+              {order.fillings.map((f) => <label class="pill"><input type="checkbox" name="Fyllning" value={f} />{f}</label>)}
+            </div>
+          </fieldset>
           <fieldset>
             <legend>Stil</legend>
             <div class="pills">
@@ -291,13 +301,72 @@ const [weekdays, saturday] = site.hours;
     if (kost.includes(box.value.toLowerCase())) box.checked = true;
   });
 
-  const select = document.querySelector<HTMLSelectElement>('#cake-select');
+  // Kombinationer av botten och fyllningar
+  type Combo = { name: string; bottom: string; fillings: string[] };
+  const comboBox = document.getElementById('combos')!;
+  const allCombos: Combo[] = JSON.parse(comboBox.dataset.combos || '[]');
+  const comboField = document.querySelector<HTMLInputElement>('#combo-field')!;
+  const bottomSelect = document.querySelector<HTMLSelectElement>('#bottom-select')!;
+  const fillingSet = document.getElementById('fillings')!;
+  const fillingBoxes = [...fillingSet.querySelectorAll<HTMLInputElement>('input[name="Fyllning"]')];
+  const maxFillings = Number(fillingSet.dataset.max) || 3;
+  let active: Combo | null = null;
+
+  const comboButtons = () => [...comboBox.querySelectorAll<HTMLButtonElement>('.combo')];
+  const chosen = () => fillingBoxes.filter((b) => b.checked).map((b) => b.value);
+
+  // Max tre fyllningar, minst en
+  function updateFillings() {
+    const n = chosen().length;
+    fillingBoxes.forEach((b) => (b.disabled = !b.checked && n >= maxFillings));
+    fillingBoxes[0].setCustomValidity(n === 0 ? `Välj 1–${maxFillings} fyllningar` : '');
+  }
+
+  function markActive(c: Combo | null) {
+    active = c;
+    comboField.value = c ? c.name : 'Egen kombination';
+    comboButtons().forEach((b) => b.setAttribute('aria-pressed', String(!!c && b.dataset.combo === c.name)));
+  }
+
+  function applyCombo(c: Combo) {
+    bottomSelect.value = c.bottom;
+    fillingBoxes.forEach((b) => (b.checked = c.fillings.includes(b.value)));
+    updateFillings();
+    markActive(c);
+  }
+
+  comboBox.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.combo');
+    const c = btn && allCombos.find((x) => x.name === btn.dataset.combo);
+    if (c) applyCombo(c);
+  });
+
+  // Ändrar kunden själv blir det en egen kombination
+  function onManualChange() {
+    updateFillings();
+    if (!active) return;
+    const same = bottomSelect.value === active.bottom &&
+      chosen().length === active.fillings.length && active.fillings.every((f) => chosen().includes(f));
+    if (!same) markActive(null);
+  }
+  bottomSelect.addEventListener('change', onManualChange);
+  fillingBoxes.forEach((b) => b.addEventListener('change', onManualChange));
+  updateFillings();
+
+  // Förvald tårta från sortimentet: visas som kombination även om den inte finns bland de rekommenderade
   const wanted = params.get('tarta');
-  if (select && wanted) {
-    if (![...select.options].some((o) => o.value === wanted)) {
-      select.prepend(new Option(wanted, wanted));
+  const wantedCombo = wanted && allCombos.find((c) => c.name === wanted);
+  if (wantedCombo) {
+    if (!comboButtons().some((b) => b.dataset.combo === wantedCombo.name)) {
+      const btn = comboButtons()[0].cloneNode(true) as HTMLButtonElement;
+      btn.dataset.combo = wantedCombo.name;
+      btn.querySelector('.combo-name')!.textContent = wantedCombo.name;
+      btn.querySelector('.combo-detail')!.textContent = `${wantedCombo.bottom}botten · ${wantedCombo.fillings.join(', ')}`;
+      comboBox.prepend(btn);
     }
-    select.value = wanted;
+    applyCombo(wantedCombo);
+  }
+  if (wanted) {
     const card = document.getElementById('formular');
     setTimeout(() => card?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
   }
@@ -314,6 +383,8 @@ const [weekdays, saturday] = site.hours;
     });
     document.getElementById('order-again')?.addEventListener('click', () => {
       form.reset();
+      markActive(null);
+      updateFillings();
       form.hidden = false;
       thanks.hidden = true;
     });
@@ -383,6 +454,18 @@ const [weekdays, saturday] = site.hours;
   .delivery strong { color: var(--ink); font-weight: 600; }
   .form-title { margin: 0 0 4px; font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.05; }
   .thanks .btn { align-self: flex-start; }
+  .legend-hint { font-weight: 400; color: var(--ink-muted); margin-left: 6px; }
+  .combos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 8px; }
+  .combo {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left;
+    padding: 10px 14px; border: 1px solid var(--line-strong); border-radius: 14px;
+    background: var(--white); color: var(--ink); cursor: pointer; font-size: 14px;
+  }
+  .combo:hover { border-color: var(--accent); }
+  .combo[aria-pressed='true'] { border-color: var(--accent); background: var(--bg-strong); box-shadow: inset 0 0 0 1px var(--accent); }
+  .combo-name { font-weight: 500; }
+  .combo-detail { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; }
+  #fillings .pill:has(input:disabled) { opacity: 0.45; cursor: not-allowed; }
 
   .reviews { padding-top: 112px; padding-bottom: 112px; gap: 48px; }
   .reviews figure { margin: 0; gap: 18px; }
