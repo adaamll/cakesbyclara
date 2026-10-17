@@ -194,6 +194,15 @@ const [weekdays, saturday] = site.hours;
               <label class="pill"><input type="radio" name="Hämtning eller leverans" value="Leverans" />Leverans</label>
             </div>
           </fieldset>
+          <fieldset class="delivery-fields" id="delivery-fields" hidden disabled>
+            <legend>Leveransadress</legend>
+            <label class="field">Gatuadress<input required name="Leveransadress" autocomplete="street-address" /></label>
+            <div class="grid form-grid">
+              <label class="field">Postnummer<input required name="Postnummer" inputmode="numeric" autocomplete="postal-code" /></label>
+              <label class="field">Ort<input required name="Ort" autocomplete="address-level2" value={site.city} /></label>
+            </div>
+            <p class="form-note">{site.delivery}</p>
+          </fieldset>
           <label class="field">Önskemål och allergier<textarea name="Önskemål och allergier" rows="4" placeholder="Färger, text på tårtan, tema, allergier…"></textarea></label>
           <button type="submit" class="submit">Skicka förfrågan</button>
           <p class="form-error" hidden>Något gick fel. Försök igen eller ring {site.phone}.</p>
@@ -390,6 +399,19 @@ const [weekdays, saturday] = site.hours;
     });
   }
 
+  // Leveransadress visas och krävs bara vid leverans (inaktiverade fält skickas inte)
+  const deliveryFields = document.querySelector<HTMLFieldSetElement>('#delivery-fields');
+  const deliveryRadios = [...document.querySelectorAll<HTMLInputElement>('input[name="Hämtning eller leverans"]')];
+  const updateDelivery = () => {
+    if (!deliveryFields) return;
+    const on = deliveryRadios.some((r) => r.checked && r.value === 'Leverans');
+    deliveryFields.hidden = !on;
+    deliveryFields.disabled = !on;
+  };
+  deliveryRadios.forEach((r) => r.addEventListener('change', updateDelivery));
+  form?.addEventListener('reset', () => setTimeout(updateDelivery));
+  updateDelivery();
+
   // FAQ: en fråga öppen åt gången
   const items = [...document.querySelectorAll<HTMLElement>('.faq-item')];
   const setOpen = (item: HTMLElement, open: boolean) => {
@@ -465,6 +487,9 @@ const [weekdays, saturday] = site.hours;
   .combo[aria-pressed='true'] { border-color: var(--accent); background: var(--bg-strong); box-shadow: inset 0 0 0 1px var(--accent); }
   .combo-name { font-weight: 500; }
   .combo-detail { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; }
+  .delivery-fields { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--bg-alt); gap: 14px; }
+  .delivery-fields[hidden] { display: none; }
+  .delivery-fields legend { float: left; width: 100%; margin-bottom: 4px; }
   #fillings .pill:has(input:disabled) { opacity: 0.45; cursor: not-allowed; }
 
   .reviews { padding-top: 112px; padding-bottom: 112px; gap: 48px; }
