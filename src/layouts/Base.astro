@@ -35,7 +35,7 @@ const schema = {
     opens: h.opens,
     closes: h.closes,
   })),
-  sameAs: [site.instagramUrl],
+  ...(site.instagramUrl && { sameAs: [site.instagramUrl] }),
 };
 ---
 <!doctype html>

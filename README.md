@@ -50,6 +50,7 @@ Vid push till `main` byggs och publiceras sajten med GitHub Pages
 - [ ] Koppla formulären till e-post (se ovan)
 - [ ] Integritetspolicy (GDPR) och köpvillkor
 - [ ] Länken "Läs mer om mig" saknar en egen sida
+- [ ] Instagram: fyll i instagramUrl i site.json om ett eget konto skapas, så visas länkarna igen
 - [ ] Egen domän (t.ex. cakesbyclara.se)
 
 ## Design

@@ -7,7 +7,7 @@
   "phoneHref": "tel:0501123456",
   "email": "hej@cakesbyclara.se",
   "instagramHandle": "@cakesbyclara",
-  "instagramUrl": "https://www.instagram.com/cakesbyclara/",
+  "instagramUrl": "",
   "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Rosengatan+12%2C+542+30+Mariestad",
   "hours": [
     { "label": "Tis–fre", "days": ["Tu", "We", "Th", "Fr"], "opens": "10:00", "closes": "18:00", "text": "10–18" },

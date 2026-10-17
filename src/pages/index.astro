@@ -22,7 +22,14 @@ const gallery = [
   { id: '1621303837174-89787a7d4729', alt: 'Doptårta' },
   { id: '1519225421980-715cb0215aed', alt: 'Tårtbord på fest' },
 ];
-const insta = [1, 2, 3, 4, 5, 6].map((n) => `images/insta-${n}.webp`);
+const insta = [
+  'Spindelmannentårta i rött och blått',
+  'Ninjatårta i turkos',
+  'Två små tårtor med spritsad dekor',
+  'Siffertårta med blommor, hallon och maränger',
+  'Chokladtårta med spritsad dekor och pärlor',
+  'Tårta i rosa och lila med K-pop-tema',
+].map((alt, i) => ({ src: `images/insta-${i + 1}.webp`, alt }));
 const [weekdays, saturday] = site.hours;
 ---
 <Base
@@ -211,13 +218,11 @@ const [weekdays, saturday] = site.hours;
     <section class="container stack insta-section">
       <div class="section-head">
         <h2 class="h2 insta-title">Senast från bageriet</h2>
-        <a href={site.instagramUrl} class="text-link">{site.instagramHandle} på Instagram →</a>
+        {site.instagramUrl && <a href={site.instagramUrl} class="text-link">{site.instagramHandle} på Instagram →</a>}
       </div>
       <div class="insta">
-        {insta.map((id) => (
-          <a href={site.instagramUrl} class="img-frame" aria-label="Instagraminlägg">
-            <img src={img(id, 600)} alt="" loading="lazy" />
-          </a>
+        {insta.map((p) => (
+          <div class="img-frame"><img src={img(p.src, 600)} alt={p.alt} loading="lazy" /></div>
         ))}
       </div>
     </section>
@@ -236,7 +241,7 @@ const [weekdays, saturday] = site.hours;
         <strong>Kontakt</strong>
         <a href={site.phoneHref}>{site.phone}</a>
         <a href={`mailto:${site.email}`}>{site.email}</a>
-        <a href={site.instagramUrl}>Instagram</a>
+        {site.instagramUrl && <a href={site.instagramUrl}>Instagram</a>}
       </div>
     </div>
     <p class="copyright">© {new Date().getFullYear()} Cakes by Clara</p>
@@ -377,7 +382,7 @@ const [weekdays, saturday] = site.hours;
   .insta-section { padding-top: 112px; padding-bottom: 48px; gap: 32px; }
   .insta-title { font-size: clamp(32px, 4vw, 44px); }
   .insta { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 10px; }
-  .insta .img-frame { display: block; aspect-ratio: 1; border-radius: 8px; }
+  .insta .img-frame { aspect-ratio: 1; border-radius: 8px; }
 
   .big-footer { padding-top: 72px; padding-bottom: 48px; gap: 48px; }
   .footer-cols { gap: 32px; font-size: 15px; line-height: 1.7; }
