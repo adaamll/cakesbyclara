@@ -14,7 +14,7 @@
     { "label": "Lör", "days": ["Sa"], "opens": "10:00", "closes": "15:00", "text": "10–15" }
   ],
   "closedText": "Sön–mån stängt",
-  "delivery": "Mariestad tätort 150 kr · Inom 3 mil 295 kr · Bröllop enligt offert",
+  "delivery": "Mariestad tätort 150 kr · Inom 3 mil 295 kr · Bröllop och event enligt offert",
   "banner": "Beställ din tårta senast tre dagar innan – bröllopstårtor sex veckor innan.",
   "show": { "banner": true, "seasonal": false, "instagram": true },
   "formEndpoint": "https://formspree.io/f/xeaenqwk"
