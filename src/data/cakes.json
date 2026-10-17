@@ -5,7 +5,7 @@
   { "name": "Citron & fläder", "cat": "Fruktiga", "price": 475, "desc": "Citronkurd, flädercrème och mjuk sockerkaka.", "favoriteDesc": "Lätt och frisk, med citronkurd och flädercrème.", "img": "1488477181946-6428a0291777", "diets": ["glutenfri", "vegansk"], "favorite": true, "favoriteTags": ["Kan bli glutenfri", "Kan bli vegansk"] },
   { "name": "Äpple, kanel & brynt smör", "cat": "Säsong", "price": 525, "desc": "Kanelbotten, svenska äpplen och kola på brynt smör.", "img": "1607478900766-efe13248b125", "diets": ["glutenfri"], "badge": "Höst" },
   { "name": "Schwarzwald", "cat": "Choklad", "price": 495, "desc": "Chokladbotten, grädde, körsbär och kirsch.", "img": "1606890737304-57a1ca8a5b62", "diets": ["laktosfri"] },
-  { "name": "Jordgubbstårta", "cat": "Klassiker", "price": 450, "desc": "Sockerkaka, vaniljkräm, grädde och svenska jordgubbar.", "img": "1464349095431-e9a21285b5f3", "diets": ["glutenfri", "laktosfri"] },
+  { "name": "Jordgubbstårta", "cat": "Klassiker", "price": 450, "desc": "Sockerkaka, vaniljkräm, grädde och svenska jordgubbar.", "img": "images/jordgubbstarta.webp", "diets": ["glutenfri", "laktosfri"] },
   { "name": "Regnbågstårta", "cat": "Barnkalas", "price": 550, "desc": "Sex färgade lager med vaniljfrosting. Valfri text.", "img": "1558636508-e0db3814bd1d", "diets": ["laktosfri"] },
   { "name": "Enhörning", "cat": "Barnkalas", "price": 650, "desc": "Vanilj och jordgubb, med handgjort horn och öron.", "img": "1586985289688-ca3cf47d3e6e", "diets": [] },
   { "name": "Pistage & hallon", "cat": "Fruktiga", "price": 545, "desc": "Pistagebotten, hallongelé och vit choklad.", "img": "1588195538326-c5b1e9f80a1b", "diets": ["glutenfri"] },
